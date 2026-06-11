@@ -76,7 +76,7 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
   }
 
   return (
-    <>
+    <div className="motion-page">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
         <div>
           <PageHeader title={title} subtitle={subtitle} />
@@ -89,7 +89,7 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
         </button>
       </div>
       {error && <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</div>}
-      <div className="overflow-hidden rounded-md border border-line bg-white shadow-soft">
+      <div className="motion-rise overflow-hidden rounded-md border border-line bg-white shadow-soft">
         <div className="overflow-x-auto scrollbar-thin">
           <table className="w-full min-w-[760px] border-collapse text-left text-sm">
             <thead className="bg-slate-50 text-xs uppercase text-muted">
@@ -117,7 +117,7 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
                 <tr><td className="px-4 py-10 text-center font-semibold text-muted" colSpan={columns.length + 1}>No records yet. Add one to make this page useful in the demo.</td></tr>
               )}
               {loading && (
-                <tr><td className="px-4 py-10 text-center font-semibold text-muted" colSpan={columns.length + 1}>Loading records...</td></tr>
+                <tr><td className="px-4 py-10 text-center font-semibold text-muted" colSpan={columns.length + 1}><span className="mx-auto block h-3 w-40 rounded-full skeleton-shimmer" /></td></tr>
               )}
             </tbody>
           </table>
@@ -125,7 +125,7 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
       </div>
       {open && (
         <div className="fixed inset-0 z-40 grid place-items-center bg-ink/30 p-4">
-          <form onSubmit={save} className="w-full max-w-2xl rounded-md bg-white shadow-soft">
+          <form onSubmit={save} className="motion-rise w-full max-w-2xl rounded-md bg-white shadow-soft">
             <div className="flex items-center justify-between border-b border-line px-5 py-4">
               <h2 className="text-lg font-black text-ink">{titleText}</h2>
               <button type="button" className="rounded-md p-2 text-muted hover:bg-shell" onClick={() => setOpen(false)} title="Close"><X size={18} /></button>
@@ -155,6 +155,6 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 }

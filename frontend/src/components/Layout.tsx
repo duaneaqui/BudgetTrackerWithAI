@@ -47,8 +47,8 @@ export function Layout() {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex min-w-fit items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold transition ${
-                    isActive ? "bg-brand text-white" : "text-muted hover:bg-shell hover:text-ink"
+                  `flex min-w-fit items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold ${
+                    isActive ? "bg-brand text-white shadow-soft" : "text-muted hover:bg-shell hover:text-ink hover:translate-x-0.5"
                   }`
                 }
               >

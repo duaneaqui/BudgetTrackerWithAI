@@ -17,8 +17,8 @@ function Card({ label, value, icon: Icon, detail, tone = "brand" }: { label: str
     danger: "bg-red-50 text-coral",
   }[tone];
   return (
-    <div className="rounded-md border border-line bg-white p-5 shadow-soft">
-      <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-md ${toneClass}`}><Icon size={20} /></div>
+    <div className="motion-card rounded-md border border-line bg-white p-5 shadow-soft">
+      <div className={`motion-icon mb-4 flex h-10 w-10 items-center justify-center rounded-md ${toneClass}`}><Icon size={20} /></div>
       <div className="text-sm font-bold text-muted">{label}</div>
       <div className="mt-1 text-2xl font-black text-ink">{value}</div>
       {detail && <div className="mt-2 text-xs font-bold text-muted">{detail}</div>}
@@ -36,8 +36,8 @@ export function Dashboard() {
   const trend = data.monthly_trend.map((item) => ({ ...item, label: monthName(item.month) }));
 
   return (
-    <>
-      <div className="mb-6 rounded-md border border-line bg-white p-5 shadow-soft">
+    <div className="motion-page">
+      <div className="motion-rise mb-6 rounded-md border border-line bg-white p-5 shadow-soft">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-black tracking-normal text-ink sm:text-3xl">Dashboard</h1>
@@ -57,7 +57,7 @@ export function Dashboard() {
         <Card label="Total savings" value={peso(data.total_savings)} icon={PiggyBank} detail="Across active savings goals" tone="good" />
       </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-md border border-line bg-white p-5 shadow-soft">
+        <section className="motion-rise motion-delay-1 rounded-md border border-line bg-white p-5 shadow-soft">
           <h2 className="mb-4 text-lg font-black text-ink">Monthly spending trend</h2>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
@@ -71,7 +71,7 @@ export function Dashboard() {
             </ResponsiveContainer>
           </div>
         </section>
-        <section className="rounded-md border border-line bg-white p-5 shadow-soft">
+        <section className="motion-rise motion-delay-2 rounded-md border border-line bg-white p-5 shadow-soft">
           <h2 className="mb-4 text-lg font-black text-ink">Expense breakdown</h2>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
@@ -86,7 +86,7 @@ export function Dashboard() {
         </section>
       </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
-        <section className="rounded-md border border-line bg-white p-5 shadow-soft lg:col-span-2">
+        <section className="motion-rise motion-delay-2 rounded-md border border-line bg-white p-5 shadow-soft lg:col-span-2">
           <h2 className="mb-4 text-lg font-black text-ink">Savings progress</h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -100,7 +100,7 @@ export function Dashboard() {
             </ResponsiveContainer>
           </div>
         </section>
-        <section className="rounded-md border border-line bg-white p-5 shadow-soft">
+        <section className="motion-rise motion-delay-3 rounded-md border border-line bg-white p-5 shadow-soft">
           <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-ink"><CalendarClock size={20} /> Upcoming</h2>
           <div className="space-y-3">
             {[...data.upcoming_bills.map((b) => ({ label: b.name, amount: b.amount, date: b.next_due_date })), ...data.upcoming_loans.map((l) => ({ label: l.provider, amount: l.monthly_payment, date: l.due_date }))].map((item, index) => (
@@ -114,6 +114,6 @@ export function Dashboard() {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }
