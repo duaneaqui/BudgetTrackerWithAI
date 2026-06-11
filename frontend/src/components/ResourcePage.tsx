@@ -27,9 +27,15 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
   const [editing, setEditing] = useState<T | null>(null);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   async function load() {
-    setItems(await api.list<T>(path));
+    setLoading(true);
+    try {
+      setItems(await api.list<T>(path));
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -72,7 +78,12 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
   return (
     <>
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-        <PageHeader title={title} subtitle={subtitle} />
+        <div>
+          <PageHeader title={title} subtitle={subtitle} />
+          <div className="mt-3 inline-flex rounded-md border border-line bg-white px-3 py-1.5 text-xs font-black uppercase text-muted shadow-soft">
+            {loading ? "Loading records" : `${items.length} saved record${items.length === 1 ? "" : "s"}`}
+          </div>
+        </div>
         <button className="inline-flex items-center justify-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-bold text-white shadow-soft" onClick={startCreate}>
           <Plus size={17} /> Add
         </button>
@@ -102,8 +113,11 @@ export function ResourcePage<T extends { id: number }>({ title, subtitle, path, 
                   </td>
                 </tr>
               ))}
-              {!items.length && (
-                <tr><td className="px-4 py-8 text-center text-muted" colSpan={columns.length + 1}>No records yet.</td></tr>
+              {!loading && !items.length && (
+                <tr><td className="px-4 py-10 text-center font-semibold text-muted" colSpan={columns.length + 1}>No records yet. Add one to make this page useful in the demo.</td></tr>
+              )}
+              {loading && (
+                <tr><td className="px-4 py-10 text-center font-semibold text-muted" colSpan={columns.length + 1}>Loading records...</td></tr>
               )}
             </tbody>
           </table>

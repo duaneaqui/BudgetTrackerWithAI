@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { BarChart3, Bot, CalendarDays, Coins, Database, Home, LogOut, PiggyBank, Receipt, Repeat, ScanLine, Settings, WalletCards } from "lucide-react";
+import { BarChart3, Bot, Coins, Database, Home, LogOut, PiggyBank, Receipt, Repeat, ScanLine, Settings, WalletCards } from "lucide-react";
 import { useAuth } from "./AuthContext";
 
 const nav = [
@@ -22,7 +22,7 @@ export function Layout() {
 
   return (
     <div className="min-h-screen bg-shell lg:flex">
-      <aside className="border-b border-line bg-white lg:fixed lg:inset-y-0 lg:w-72 lg:border-b-0 lg:border-r">
+      <aside className="border-b border-line bg-white lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col lg:border-b-0 lg:border-r">
         <div className="flex h-16 items-center justify-between px-5 lg:h-20">
           <div>
             <div className="text-xl font-black text-ink">BudgetAI PH</div>
