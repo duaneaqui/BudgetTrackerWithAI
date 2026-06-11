@@ -1,0 +1,419 @@
+Create a full-stack web app called BudgetAI PH.
+
+Goal:
+Build a free, portfolio-ready personal finance tracker for Filipino users. The app should track income, expenses, recurring bills, loans, savings goals, local area prices, and provide AI-style budgeting insights. Do not implement paid bank APIs, GCash APIs, Maya APIs, BPI APIs, or real auto-syncing. This project must work with manual input and free OCR-based screenshot upload only.
+
+Tech Stack:
+Frontend:
+- React
+- TypeScript
+- Tailwind CSS
+- Recharts
+- Vite or Next.js
+
+Backend:
+- Python
+- FastAPI
+- SQLite
+- SQLAlchemy
+- Pydantic
+- JWT authentication if possible
+
+OCR:
+- Use Tesseract OCR or EasyOCR.
+- If OCR setup is difficult, create a mock OCR parser first and structure the code so real OCR can be plugged in later.
+
+Main Features:
+
+1. Authentication
+Create:
+- Register page
+- Login page
+- Logout
+- Protected dashboard routes
+
+User model:
+- id
+- name
+- email
+- hashed_password
+- created_at
+
+2. Dashboard
+Show summary cards:
+- Monthly income
+- Total expenses this month
+- Remaining balance
+- Total savings
+- Total loan balance
+- Upcoming bills
+- Upcoming loan due dates
+
+Also show charts:
+- Expense breakdown by category
+- Monthly spending trend
+- Savings progress
+
+3. Income Tracker
+Allow user to add, edit, delete income records.
+
+Fields:
+- source
+- amount
+- date
+- notes
+
+Example:
+- Salary
+- ₱30,000
+- June 15, 2026
+
+4. Expense Tracker
+Allow user to add, edit, delete expenses.
+
+Fields:
+- name
+- category
+- amount
+- date
+- payment_method
+- notes
+
+Categories:
+- Food
+- Rent
+- Utilities
+- Transport
+- Laundry
+- Pets
+- Loans
+- Subscriptions
+- Emergency
+- Entertainment
+- Other
+
+5. Recurring Expenses
+Allow user to create bills that repeat.
+
+Fields:
+- name
+- amount
+- category
+- frequency
+- due_day
+- next_due_date
+- is_active
+
+Frequency options:
+- weekly
+- every_15_days
+- monthly
+
+Examples:
+- Rent ₱4,500 monthly
+- WiFi ₱400 monthly
+- Cursor ₱1,250 monthly
+- Cat food/litter ₱3,000 monthly
+
+The dashboard should show upcoming recurring expenses.
+
+6. Loan Tracker
+Allow user to add, edit, delete loans.
+
+Fields:
+- provider
+- loan_type
+- original_amount
+- remaining_balance
+- monthly_payment
+- interest_or_fees
+- due_date
+- status
+- notes
+
+Provider examples:
+- GCash
+- SLoan
+- Maya Credit
+- BPI
+- Personal Loan
+- Other
+
+Status options:
+- active
+- paid
+- overdue
+
+Show:
+- Total remaining loan balance
+- Upcoming due dates
+- Loan payment progress
+
+7. Savings Goals
+Allow user to create savings goals.
+
+Fields:
+- goal_name
+- target_amount
+- current_amount
+- target_date
+- notes
+
+Show progress bars:
+current_amount / target_amount * 100
+
+8. Local Cost Database
+Allow user to record common prices in their area.
+
+Fields:
+- item_name
+- category
+- unit
+- price
+- location_note
+
+Examples:
+- Laundry, ₱40, per kilo, Marikina
+- Rice, ₱55, per kilo
+- Jeep fare, ₱13, per ride
+- Water refill, ₱35, per container
+
+These local costs should be used in the AI insights page.
+
+9. AI Budget Advisor
+Do not require paid AI APIs.
+
+Create a rule-based AI insights system first.
+
+It should analyze:
+- income
+- expenses
+- loans
+- recurring bills
+- savings goals
+- local costs
+
+Generate insights like:
+- “You spent 35% of your income on food this month.”
+- “Your loan payments are above 15% of your income. Avoid new loans if possible.”
+- “At your current spending rate, your estimated end-of-month balance is ₱____.”
+- “Your recurring expenses are taking ₱____ monthly.”
+- “You can save ₱____ if you reduce food spending by 10%.”
+- “Your upcoming bills this week total ₱____.”
+
+Create an endpoint:
+GET /insights/monthly
+
+Return:
+- summary
+- warnings
+- recommendations
+- forecast
+
+Optional:
+Structure the code so OpenAI/Gemini/Ollama can be added later, but do not require API keys.
+
+10. Loan Screenshot Scanner
+Create a feature where the user can upload a screenshot of a loan page, loan receipt, or loan message.
+
+Frontend:
+- Upload image button
+- Preview uploaded image
+- Button: “Scan Loan”
+- Display extracted results in an editable confirmation form
+- Button: “Save Loan”
+
+Backend:
+Endpoint:
+POST /ocr/loan-screenshot
+
+Process:
+1. Receive uploaded image
+2. Run OCR using Tesseract/EasyOCR or a mock parser
+3. Extract possible loan fields:
+   - provider
+   - amount_due
+   - remaining_balance
+   - original_amount
+   - monthly_payment
+   - due_date
+   - interest_or_fees
+   - status
+4. Return extracted data
+5. User must confirm before saving
+
+Important:
+Never auto-save OCR results. Always require confirmation.
+
+Example OCR text:
+SLoan
+Amount Due: ₱1,250
+Due Date: June 15, 2026
+Remaining Balance: ₱3,750
+
+Expected parsed result:
+{
+  "provider": "SLoan",
+  "monthly_payment": 1250,
+  "due_date": "2026-06-15",
+  "remaining_balance": 3750,
+  "status": "active"
+}
+
+11. Monthly Reports
+Create report page showing:
+- Total income
+- Total expenses
+- Remaining balance
+- Category spending
+- Loan payments
+- Savings progress
+- AI insights summary
+
+Allow filtering by month and year.
+
+Database Tables:
+- users
+- incomes
+- expenses
+- recurring_expenses
+- loans
+- savings_goals
+- local_costs
+
+API Routes:
+Auth:
+- POST /auth/register
+- POST /auth/login
+- GET /auth/me
+
+Income:
+- GET /incomes
+- POST /incomes
+- PUT /incomes/{id}
+- DELETE /incomes/{id}
+
+Expenses:
+- GET /expenses
+- POST /expenses
+- PUT /expenses/{id}
+- DELETE /expenses/{id}
+
+Recurring:
+- GET /recurring-expenses
+- POST /recurring-expenses
+- PUT /recurring-expenses/{id}
+- DELETE /recurring-expenses/{id}
+
+Loans:
+- GET /loans
+- POST /loans
+- PUT /loans/{id}
+- DELETE /loans/{id}
+
+Savings:
+- GET /savings-goals
+- POST /savings-goals
+- PUT /savings-goals/{id}
+- DELETE /savings-goals/{id}
+
+Local Costs:
+- GET /local-costs
+- POST /local-costs
+- PUT /local-costs/{id}
+- DELETE /local-costs/{id}
+
+Insights:
+- GET /insights/monthly
+
+OCR:
+- POST /ocr/loan-screenshot
+
+Frontend Pages:
+- Login
+- Register
+- Dashboard
+- Expenses
+- Income
+- Recurring Bills
+- Loans
+- Loan Screenshot Scanner
+- Savings Goals
+- Local Costs
+- AI Insights
+- Monthly Reports
+- Settings/Profile
+
+Design Requirements:
+Use a clean modern dashboard style.
+Make it look like a polished SaaS portfolio project.
+
+Suggested UI:
+- Sidebar navigation
+- Summary cards
+- Tables
+- Modal forms
+- Charts
+- Progress bars
+- Warning badges
+- Mobile responsive layout
+
+Use Philippine Peso formatting:
+Example:
+₱1,250.00
+
+Add seed/demo data:
+- Monthly salary: ₱30,000
+- Rent: ₱4,500
+- Electricity: ₱600
+- Water: ₱150
+- WiFi: ₱400
+- Cat food/litter: ₱3,000
+- Cursor subscription: ₱1,250
+- Laundry: ₱40/kg
+- Rice: ₱55/kg
+- Jeep fare: ₱13
+- SLoan balance: ₱3,750
+- Monthly payment: ₱1,250
+
+Important Constraints:
+- No paid APIs.
+- No real bank integrations.
+- No GCash/Maya/BPI auto-sync.
+- No scraping banking apps.
+- No unsafe credential handling.
+- OCR upload only reads user-provided screenshots.
+- User confirms extracted data before saving.
+
+Deliverables:
+1. Complete frontend
+2. Complete backend
+3. SQLite database setup
+4. README.md with setup instructions
+5. .env.example
+6. Seed/demo data script
+7. Clear folder structure
+8. Basic error handling
+9. Responsive UI
+10. Working OCR or mock OCR fallback
+
+README should include:
+- Project description
+- Features
+- Tech stack
+- Setup instructions
+- How to run backend
+- How to run frontend
+- How OCR works
+- Limitations
+- Future improvements
+
+Future Improvements section:
+- Optional OpenAI/Gemini/Ollama integration
+- SMS/email import
+- CSV import
+- Export monthly report as PDF
+- PostgreSQL migration
+- Bank integration only through official approved APIs
+
+Build the project step by step. Prioritize a working MVP first, then polish the UI.
